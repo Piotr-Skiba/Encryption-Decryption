@@ -5,25 +5,21 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String type = scanner.nextLine();
+        String mode = scanner.nextLine();
 
-        if (type.equals("enc")) {
+        if (mode.equals("enc")) {
             System.out.println(encrypt(scanner.nextLine(),Integer.parseInt(scanner.nextLine())));
         }
-        if (type.equals("dec")) {
+        if (mode.equals("dec")) {
             System.out.println(decrypt(scanner.nextLine(),Integer.parseInt(scanner.nextLine())));
         }
-
-
     }
-
-
-    static String encrypt(String message, int key) {
+    static String encrypt(String data, int key) {
         ArrayList<Character> charList = new ArrayList<>();
 
-        //String lowerCaseMessage = message.toLowerCase();
+        //String lowerCaseMessage = data.toLowerCase();
 
-        for (char c: message/*lowerCaseMessage*/.toCharArray()
+        for (char c: data/*lowerCaseMessage*/.toCharArray()
         ) {
             /*if (c == ' ') {
                 charList.add(' ');
@@ -64,11 +60,11 @@ public class Main {
                 charList.add(c);
             }*/
         }
-        StringBuilder encrypted = new StringBuilder();
+        StringBuilder decrypted = new StringBuilder();
         for (char c: charList
         ) {
-            encrypted.append(c);
+            decrypted.append(c);
         }
-        return encrypted.toString()/*.toLowerCase()*/;
+        return decrypted.toString()/*.toLowerCase()*/;
     }
 }
