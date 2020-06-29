@@ -1,37 +1,33 @@
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String mode = scanner.nextLine();
 
-        if (mode.equals("enc")) {
-            System.out.println(encrypt(scanner.nextLine(),Integer.parseInt(scanner.nextLine())));
+        HashMap<String,String> parametrers = new HashMap<>();
+        for (int i = 0; i < args.length - 1; i++) {
+            parametrers.put(args[i],args[i+1]);
         }
-        if (mode.equals("dec")) {
-            System.out.println(decrypt(scanner.nextLine(),Integer.parseInt(scanner.nextLine())));
+
+
+        if (parametrers.getOrDefault("-mode","enc").equals("enc")) {
+            System.out.println(encrypt(parametrers.getOrDefault("-data",""),Integer.parseInt(parametrers.getOrDefault("-key","0"))));
+        }
+        if (parametrers.getOrDefault("-mode","enc").equals("dec")) {
+            System.out.println(decrypt(parametrers.getOrDefault("-data",""),Integer.parseInt(parametrers.getOrDefault("-key","0"))));
         }
     }
     static String encrypt(String data, int key) {
         ArrayList<Character> charList = new ArrayList<>();
 
-        //String lowerCaseMessage = data.toLowerCase();
 
-        for (char c: data/*lowerCaseMessage*/.toCharArray()
+
+        for (char c: data.toCharArray()
         ) {
-            /*if (c == ' ') {
-                charList.add(' ');
-            } else {*/
                 c = (char)(c + key);
                 charList.add(c);
-            /*} *//*else if (c < 'a' || c > 'z') {
-                charList.add(c);
-            } else {
-                c = (char) ('a' + (((c - 'a') + key) % 26));
-                charList.add(c);
-            }*/
         }
         StringBuilder encrypted = new StringBuilder();
         for (char c: charList
@@ -44,27 +40,17 @@ public class Main {
     static String decrypt(String message, int key) {
         ArrayList<Character> charList = new ArrayList<>();
 
-       // String lowerCaseMessage = message.toLowerCase();
-
-        for (char c: message/*lowerCaseMessage*/.toCharArray()
+        for (char c: message.toCharArray()
         ) {
-            /*if (c == ' ') {
-                charList.add(' ');
-            } else {*/
                 c = (char)(c - key);
                 charList.add(c);
-            /*}*/ /*else if (c < 'a' || c > 'z') {
-                charList.add(c);
-            } else {
-                c = (char) ('z' - ((('z' - c) + key) % 26));
-                charList.add(c);
-            }*/
         }
         StringBuilder decrypted = new StringBuilder();
         for (char c: charList
         ) {
             decrypted.append(c);
         }
-        return decrypted.toString()/*.toLowerCase()*/;
+        return decrypted.toString();
     }
+
 }
