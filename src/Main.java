@@ -18,8 +18,10 @@ public class Main {
 
         if (parameters.getAlg().equals("unicode")) {
             method = new EncryptDecryptUnicode();
-        } else {
+        } else if (parameters.getAlg().equals("shift")){
             method = new EncryptDecryptShift();
+        } else {
+            method = new EncryptDecryptUnicode();
         }
 
         EncryptsDecrypts encryptsDecrypts = new EncryptsDecrypts(method,parameters);
