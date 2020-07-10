@@ -1,56 +1,32 @@
-
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
+import java.io.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-
-        HashMap<String,String> parametrers = new HashMap<>();
-        for (int i = 0; i < args.length - 1; i++) {
-            parametrers.put(args[i],args[i+1]);
-        }
+    public static void main(String[] args) throws IOException {
 
 
-        if (parametrers.getOrDefault("-mode","enc").equals("enc")) {
-            System.out.println(encrypt(parametrers.getOrDefault("-data",""),Integer.parseInt(parametrers.getOrDefault("-key","0"))));
+
+        EncryptDecrypt method;
+        Parameters parameters = new Parameters(args);
+
+        if (parameters.getAlg().equals("unicode")) {
+            method = new EncryptDecryptUnicode();
+        } else if (parameters.getAlg().equals("shift")){
+            method = new EncryptDecryptShift();
+        } else {
+            method = new EncryptDecryptUnicode();
         }
-        if (parametrers.getOrDefault("-mode","enc").equals("dec")) {
-            System.out.println(decrypt(parametrers.getOrDefault("-data",""),Integer.parseInt(parametrers.getOrDefault("-key","0"))));
-        }
+
+        EncryptsDecrypts encryptsDecrypts = new EncryptsDecrypts(method,parameters);
+        encryptsDecrypts.encryptData();
+
+
     }
-    static String encrypt(String data, int key) {
-        ArrayList<Character> charList = new ArrayList<>();
-
-
-
-        for (char c: data.toCharArray()
-        ) {
-                c = (char)(c + key);
-                charList.add(c);
-        }
-        StringBuilder encrypted = new StringBuilder();
-        for (char c: charList
-        ) {
-            encrypted.append(c);
-        }
-        return encrypted.toString()/*.toLowerCase()*/;
-    }
-
-    static String decrypt(String message, int key) {
-        ArrayList<Character> charList = new ArrayList<>();
-
-        for (char c: message.toCharArray()
-        ) {
-                c = (char)(c - key);
-                charList.add(c);
-        }
-        StringBuilder decrypted = new StringBuilder();
-        for (char c: charList
-        ) {
-            decrypted.append(c);
-        }
-        return decrypted.toString();
-    }
-
 }
